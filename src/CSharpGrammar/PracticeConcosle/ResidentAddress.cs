@@ -57,5 +57,11 @@ namespace PracticeConcosle.Data
 
         // Note that NO "default" constructor was created because I wish the program
         // to assign the address with all neccessary info
+
+
+        public override string ToString()
+        {
+            return $"{Number},{Address1},{Address2},{ProvinceState},{_Unit},{_City}"; 
+        }
     }
 }
