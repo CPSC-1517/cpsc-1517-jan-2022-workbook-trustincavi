@@ -71,27 +71,100 @@ namespace PracticeConcosle.Data
             }
         }
 
-        // auto-implemetend property
+        // - auto-implemetend property
         // these properties differ only in syntax
         // each property is responsible for a single piece of data
         // these properties DO NOT references a declared private data member
         // the system generates an internal storage area of the return data type
         // the system manages the internal storage for the accessor and mutator
         // this is NO additional logic applied to the data value
-        public int Level { get; set; }
+
+        // Using an enum for this field eill AUTOMATICALLY restrict
+        // the values this property can contain
+        public SupervisoryLevel Level { get; set; }
 
 
         // this property could be coded as either a fully-implemented or auto-implemented prop
         public double Years
         {
             get { return _Years; }
-            set { _Years = value; }
+            set 
+            {
+                if (!Utilities.IsPositive(value))
+                {
+                    throw new ArgumentNullException("Year can not be a negative value.");
+                }
+                _Years = value;
+            }
         }
 
         // constructor
+        // is to initialize the physical object (instance) during its creation
+        // the result of creation is ensure that the coder gets an insurance
+        // in a known state
+        // 
+        // if your class definition has NO constructor, the the data members/auto implemented properties
+        // are set to the c# default data type value
+        // 
+        // There can be 1 or more constructors in your class definition
+        // If you code a constructor for the class, you are responsible for all
+        // constructors used by the class!!!!!!
+        // 
+        // 2 types:
+        // - Default: this constructor does NOT take in parameters
+        // - Greedy: this constructor has list of parameters, on for each property, declare for incoming data
+        // 
+        // Syntax: accesstype classname([list of parameters]) {}
+        // IMPORTANT:
+        // - The constructor DOES NOT have a return datatype
+        // - You DO NOT call a contructor directly, called using the new operator.
+
+        // default constructor
+        public Employment()
+        {
+            // contrustor body
+            // a) aparameter for each property
+            // b) you could assign literal values to properties
+            // c) validation for public readonly data members
+            //    validation for a properties with a private set
+            Level = SupervisoryLevel.TeamMember;
+            Title = "Unknow";
+        }
+
+        // greedy constructor
+        public Employment(string title, SupervisoryLevel level, double years)
+        {
+            Title = title;
+            Level = level;
+            Years = years;
+        }
 
 
 
-        // behaviour
+        // Behaviour (methods)
+        // Syntax: accesstype [static] returndatatype BehaviourName([list of params]) {}
+        // 
+        // There maaybe times you wish to obtain all the data in your instance all at oncefor display
+        // generally, to accomplish this, your class overrides the .ToString() method
+        public override string ToString()
+        {
+            // display in csv format
+            return $"{Title},{Level},{Years}";
+        }
+
+        public void SetEmployeeResponsibilityLevel(SupervisoryLevel level)
+        {
+            // you could do validation within this method to ensure acceptable value
+            if (level < 0)
+            {
+                throw new Exception("Responsibility level must be positive");
+            }
+
+            Level = level;
+        }
+
+        // KO hien thi noi dung error bang console writeline trong method
+        // exception trong method la internal error cho program
+        // hien thi error voi user trong Main
     }
 }
