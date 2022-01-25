@@ -25,13 +25,13 @@ namespace PracticeConcosle.Data
         // each instance of this class will represent an individual
         // This class will define the following characteristics of a person
 
-        private string _FirstName;
-        private string _LastName;
+        private string _FirstName = "";
+        private string _LastName = "";
 
         public string FirstName
         {
             get { return _FirstName; }
-            set 
+            private set 
             {
                 if (Utilities.IsEmpty(value))
                 {
@@ -43,8 +43,8 @@ namespace PracticeConcosle.Data
 
         public string LastName
         {
-            get { return LastName; }
-            set
+            get { return _LastName; }
+            private set
             {
                 if (Utilities.IsEmpty(value))
                 {
@@ -57,11 +57,13 @@ namespace PracticeConcosle.Data
 
         // Composition actually uses the other class as a property/field with
         // the definition of the class being defined
+        // in this example Address is a field (data member)
+
         public ResidentAddress Address;
 
 
         // Composition
-        public List<Employment> EmploymentPositions { get; set; }
+        public List<Employment> EmploymentPositions { get; private set; }
 
 
         // CONSTRUCTOR
@@ -71,11 +73,11 @@ namespace PracticeConcosle.Data
         // you can assign default literals to the properties
         //public Person()
         //{
-            // If an instance of List<T> is not created and assigned then
-            // the property will have an imitial value of null
-            //EmploymentPositions = new List<Employment>();
-            //FirstName = "unknown";
-            //LastName = "unknown";
+        // If an instance of List<T> is not created and assigned then
+        // the property will have an imitial value of null
+        //EmploymentPositions = new List<Employment>();
+        //FirstName = "unknown";
+        //LastName = "unknown";
         //}
 
         // Option 2:
@@ -103,6 +105,17 @@ namespace PracticeConcosle.Data
                 EmploymentPositions = new List<Employment>();
 
             }
+        }
+
+        public void ChangeName(string firstname, string lastname)
+        {
+            FirstName = firstname.Trim();
+            LastName = lastname.Trim();
+        }
+
+        public void AddEmployment(Employment employment)
+        {
+            EmploymentPositions.Add(employment);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace PracticeConcosle.Data
         //   are storage area in your class
         //   these are treated as variables
         //   these may be public, private, public readonly
-        private string _Title;
+        private string _Title = "";
         private double _Years;
 
 
