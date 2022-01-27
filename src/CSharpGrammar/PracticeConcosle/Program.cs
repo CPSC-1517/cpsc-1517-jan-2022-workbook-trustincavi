@@ -10,8 +10,14 @@ ResidentAddress Address = CreateAddress();
 
 //create a Person
 Person Me = CreatePerson(Job, Address);
-if (Me != null)
-    DisplayPerson(Me);
+
+// Review: Class & Object
+//if (Me != null)
+//    DisplayPerson(Me);
+
+
+// Review: Array
+ArrayReview(Me);
 
 
 
@@ -20,7 +26,6 @@ static void DisplayString(string text)
 {
     Console.WriteLine(text);
 }
-
 
 static void DisplayPerson(Person person)
 {
@@ -45,8 +50,6 @@ static void DisplayPerson(Person person)
     }
     
 }
-
-
 
 Employment CreateJob()
 {
@@ -147,4 +150,62 @@ Person CreatePerson(Employment job, ResidentAddress address)
         DisplayString("Run time error: " + ex.Message);
     }
     return thePerson;
+}
+
+void ArrayReview(Person person)
+{
+    int[] array1 = new int[5];
+    PrintArray(array1, 5, "declare int array size 5");
+
+    int[] array2 = new int[] { 1, 2, 4, 8, 16};
+    PrintArray(array2, 5, "declare array using a list of supplied values");
+
+    // alternate syntax
+    // .count() is a method inherited from IEnumerable
+    // .Length is a read-only property (just has a get{}) of Array class 
+    int[] array3 = { 2, 4, 6, 8, 10 };
+    PrintArray(array3, array3.Count(), "declare array using a list of supplied values");
+
+    // logical counter for your array size to indicate the "valid meaningful" values for processing
+    int lsarray1 = 0;
+    int lsarray2 = array2.Count(); // IEnumerable method
+    int lsarray3 = array3.Length; // Array's read-only property
+
+    Random random = new Random();
+    int randomvalue = 0;
+    while (lsarray1 < array1.Length)
+    {
+        randomvalue = random.Next(0, 100);
+        array1[lsarray1] = randomvalue;
+        lsarray1++;
+    }
+    PrintArray(array1, lsarray1, "array load with random value");
+
+    // Alter an element randomly selected to a new value
+    int arrayPosition = random.Next(0, array1.Length);
+    randomvalue = random.Next(0, 100);
+    array1[arrayPosition] = randomvalue;
+    PrintArray(array1, lsarray1, "randomly replace an array value");
+
+    // Remove an element value from an array
+    // move all array element in position greater than the removed element position, "up one"
+    // assume we are removing element 3 (index 2)
+    int logicalElementNumber = 3;
+    for (int index = --logicalElementNumber; index < array1.Length-1; index++)
+    {
+        array1[index] = array1[index + 1];
+    }
+    array1[array1.Length - 1] = 0;
+    PrintArray(array1, array1.Length, "randomly remove an array value");
+}
+
+void PrintArray(int[] array, int size, string text)
+{
+    Console.WriteLine($"\n{text}\n");
+
+    foreach (var item in array)
+    {
+        Console.Write($"{item},");
+    }
+    Console.WriteLine("\n");
 }
