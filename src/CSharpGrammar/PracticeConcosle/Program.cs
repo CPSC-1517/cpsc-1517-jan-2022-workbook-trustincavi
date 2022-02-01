@@ -2,7 +2,7 @@
 
 using PracticeConcosle.Data;
 
-DisplayString("Hello, World!");
+//DisplayString("Hello, World!");
 
 // Fully qualified name(space)
 Employment Job = CreateJob();
@@ -17,7 +17,23 @@ Person Me = CreatePerson(Job, Address);
 
 
 // Review: Array
-ArrayReview(Me);
+//ArrayReview(Me);
+
+
+// Review: IO
+//string pathname = CreateCSVFile();
+//ReadCSVFile(pathname);
+
+
+// Review: Parse/Try Parse
+string pathname = CreateCSVFile();
+Console.WriteLine("\nResults of parsing CSV Employment file:\n");
+List<Employment> Jobs = ReadCSVFile(pathname);
+Console.WriteLine("\nResult of good parsed the CSV Employment file:\n");
+foreach (Employment employment in Jobs)
+{
+    DisplayString(employment.ToString());
+}
 
 
 
@@ -48,7 +64,6 @@ static void DisplayPerson(Person person)
             DisplayString(person.EmploymentPositions[i].ToString());
         }
     }
-    
 }
 
 Employment CreateJob()
@@ -157,7 +172,7 @@ void ArrayReview(Person person)
     int[] array1 = new int[5];
     PrintArray(array1, 5, "declare int array size 5");
 
-    int[] array2 = new int[] { 1, 2, 4, 8, 16};
+    int[] array2 = new int[] { 1, 2, 4, 8, 16 };
     PrintArray(array2, 5, "declare array using a list of supplied values");
 
     // alternate syntax
@@ -191,7 +206,7 @@ void ArrayReview(Person person)
     // move all array element in position greater than the removed element position, "up one"
     // assume we are removing element 3 (index 2)
     int logicalElementNumber = 3;
-    for (int index = --logicalElementNumber; index < array1.Length-1; index++)
+    for (int index = --logicalElementNumber; index < array1.Length - 1; index++)
     {
         array1[index] = array1[index + 1];
     }
@@ -208,4 +223,118 @@ void PrintArray(int[] array, int size, string text)
         Console.Write($"{item},");
     }
     Console.WriteLine("\n");
+}
+
+
+// For Review: IO
+string CreateCSVFile()
+{
+    string pathname = "../../../Employment.dat";
+
+    List<Employment> Jobs = new List<Employment>();
+    Jobs.Add(new Employment("trainee", SupervisoryLevel.Entry, 0.5));
+    Jobs.Add(new Employment("worker", SupervisoryLevel.TeamMember, 3.5));
+    Jobs.Add(new Employment("worker", SupervisoryLevel.TeamMember, 2.1));
+    Jobs.Add(new Employment("leader", SupervisoryLevel.TeamLeader, 7.8));
+    Jobs.Add(new Employment("worker", SupervisoryLevel.Supervisor, 6.0));
+    Jobs.Add(new Employment("worker", SupervisoryLevel.DepartmentHead, 2.1));
+
+    // in .Net Core, when deaclaring an instance class,
+    // it is now NOT necessary to specify the class name after the new.
+    List<string> csvLines = new();
+    foreach (var item in Jobs)
+    {
+        // Each item represents an instance of Employment in the collection Jobs
+        csvLines.Add(item.ToString());
+    }
+
+
+    // This part is to TEST the IO read method for bad csv data
+    csvLines.Add($"{SupervisoryLevel.Owner},4.5"); // missing a column
+    csvLines.Add($",{SupervisoryLevel.DepartmentHead},4.5"); // missing value of 1 column
+    csvLines.Add($"Bad Years,{SupervisoryLevel.DepartmentHead},Bob"); //
+    csvLines.Add($"Bad Years,{SupervisoryLevel.DepartmentHead},-4.5"); //
+    // end of test csv read file method
+
+
+    // write to a csv file requires the System.IO namespace
+    // The default folder of the output is the folder that conatains the executing .exe file.
+    // Other ways to output this file: using StreamWriter, using File class.
+    // Within the File class there is a method that outputs a list of strings using 1 command,
+    // there is NO NEED for a StreamWriter instance.
+
+    // The pathname of the method at minimum MUST be the filename.
+    // The pathname can redirect the default location by using relative address with the filename.
+
+    try
+    {
+        File.WriteAllLines(pathname, csvLines);
+        Console.WriteLine($"\nCheckout the CSV file at: {Path.GetFullPath(pathname)}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+
+    return Path.GetFullPath(pathname);
+}
+
+
+// For Review: IO
+//void ReadCSVFile(string pathname)
+//{
+//    // Reading a CSV file is similar to writing.
+//    // One can read all lines at a time. There is no need for StreamReader.
+//    // One concern would be the SIZE of the expected file.
+//    try
+//    {
+//        string[] csvFileInput = File.ReadAllLines(pathname);
+//        Console.WriteLine("\n\nContent of csv file:\n");
+//        foreach (var item in csvFileInput)
+//        {
+//            Console.WriteLine(item);
+//        }
+//    }
+//    catch (IOException ex)
+//    {
+//        Console.WriteLine($"Reading CSV file error: {ex.Message}");
+//    }
+//    catch (Exception ex)
+//    {
+//        Console.WriteLine(ex.Message);
+//    }
+//}
+
+// For Review: Parse / TryParse
+List<Employment> ReadCSVFile(string pathname)
+{
+    List<Employment> inputList = new();
+
+    string[] csvFileInput = File.ReadAllLines(pathname);
+    Employment job = null;
+    foreach (var line in csvFileInput)
+    {
+        try
+        {
+            bool returnedBool = Employment.TryParse(line, out job);
+            if (returnedBool)
+            {
+                inputList.Add(job);
+            }
+        }
+        catch (FormatException ex)
+        {
+            Console.WriteLine($"Format error: {ex.Message}");
+        }
+        catch (ArgumentNullException ex)
+        {
+            Console.WriteLine($"Argument invalid error: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Processing Parse error: {ex.Message}");
+        }
+    }
+
+    return inputList;
 }
