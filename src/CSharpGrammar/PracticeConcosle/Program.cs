@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using PracticeConcosle.Data;
+using System.Text.Json;
 
 //DisplayString("Hello, World!");
 
@@ -35,6 +36,13 @@ foreach (Employment employment in Jobs)
     DisplayString(employment.ToString());
 }
 
+
+#region Review - JSON file Read and Write
+string Jsonpathname = "../../../Employee.json";
+SaveAsJson(Me, Jsonpathname);
+Person You = ReadAsJson(Jsonpathname);
+DisplayPerson(You);
+#endregion
 
 
 
@@ -338,3 +346,56 @@ List<Employment> ReadCSVFile(string pathname)
 
     return inputList;
 }
+
+#region Review: JSON I/O
+
+void SaveAsJson(Person me, string pathname)
+{
+    // The term use to read and write Json files is SerialiZation.
+    // The class use are referred to as Serializers.
+    // With writing we can make the file produced more readable by using indentation.
+    // Json is very good at using object and properties
+
+    JsonSerializerOptions options = new JsonSerializerOptions
+    {
+        WriteIndented = true,
+        IncludeFields = true // To export all FIELDS as well, by default just export Properties.
+    };
+
+    // Serialization
+    // Product of Serialization is a string
+    string jsonstring = JsonSerializer.Serialize<Person>(me, options);
+
+    // output the json string to file
+    File.WriteAllText(pathname, jsonstring);
+
+}
+
+Person ReadAsJson(string pathname)
+{
+    Person you = null;
+    try
+    {
+        // Bring in the text from the file
+        string jsonstring = File.ReadAllText(pathname);
+
+        // Use the deserializer to unpack the json string into
+        // the expected structure (<Person>)
+        you = JsonSerializer.Deserialize<Person>(jsonstring);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+
+    return you;
+
+    // Person.Address la 1 field, NOT a PROPERTY vi ko co {get; set;} (at least get;, set; is optional)
+    // It can be serialized, but CANNOT be deserialized.
+    // To deserialize a field, add [JsonInclude] above that field.
+    // Check Person class to see more.
+    //   [JsonInclude]
+    //   public ResidentAddress Address;
+}
+
+#endregion

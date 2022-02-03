@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace PracticeConcosle.Data
@@ -59,6 +60,7 @@ namespace PracticeConcosle.Data
         // the definition of the class being defined
         // in this example Address is a field (data member)
 
+        [JsonInclude]
         public ResidentAddress Address;
 
 
