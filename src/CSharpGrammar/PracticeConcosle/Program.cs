@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using PracticeConcosle.Data;
+using PracticeConsole.Data;
 using System.Text.Json;
 
 //DisplayString("Hello, World!");

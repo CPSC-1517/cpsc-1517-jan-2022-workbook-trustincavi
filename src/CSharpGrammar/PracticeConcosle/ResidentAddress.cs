@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PracticeConcosle.Data
+namespace PracticeConsole.Data
 {
     // STRUCT is another of developer of datatype
     // looks like a class definition

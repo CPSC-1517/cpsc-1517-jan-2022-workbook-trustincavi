@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace PracticeConcosle.Data
+namespace PracticeConsole.Data
 {
     public class Person
     {
@@ -92,7 +92,9 @@ namespace PracticeConcosle.Data
             string firstName,
             string lastName,
             ResidentAddress address,
-            List<Employment> employmentPositions)
+            List<Employment> employmentPositions
+            //ResidentAddress employmentAddress
+            )
         {
             FirstName = firstName;
             LastName = lastName;

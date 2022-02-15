@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PracticeConcosle
+namespace PracticeConsole
 {
     public static class Utilities
     {
