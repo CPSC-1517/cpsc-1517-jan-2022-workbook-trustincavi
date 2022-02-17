@@ -4,3 +4,80 @@
     ViewData["Title"] = "Basic Data Management";
 }
 <h1>Basic Data Management</h1>
+
+@*
+    Investigate using forms on a webpage
+
+    Controls: <input> <select> <button> <form> <label>
+    Helper tags: asp-for asp-page-handler
+
+    <form> parameters:
+        method = indicates how data is transfer to server
+        - get: visible on URL in plain text
+        - post: embbeded within the form objects sent to the server, not visible
+        action= directs the server to the page to process form
+        - "" directs to the current page
+        - is optional
+
+    <label> noneeds for parameters, can have helper tags such as asp-for
+        depending on css stylesheet, you can get different results.
+
+    <input> used to accept input from the page user, has various type of acceptable inputs (type="..").
+        Can tie the control to a property on the ModelPage directly (asp-for="propertyname").
+
+    <select> used to display a list of items to select a value,
+        can be tie to a ModelPage property (asp-for),
+        consists of 2 parts on eacg line in the list of selectable items,
+        a line of selectable item is indicated using the <option>.
+            
+            <option value="returnedValue">displayText</option>
+                returnedValue: is NOT visible to the user, and is the value sent to the ModelPage.
+        
+        There are times when you wish the use to have a "prompt" in the display list.
+            This reffered to as the prompt line.
+            This is NOT a valid value for your data.
+            It may be used to indicated no choice (a property can be nullable, handle logic).
+
+    <textarea> display a large text input box area for user.
+        display size is controlled using rows= and cols= ()
+
+    <button> three types
+        - submit: sends the form to the server for processing
+        - reset: locally clear the form and does NOT send to server processing
+        - button: 
+        You can assign specific value associated with the button that can be logically tested in your ModelPage (value=)
+        To identify the control you can use
+        - id= basically used by javascript to identify the control
+        - name= is used by the Request["xxx"] to identify the control inyour C# code
+        Values can be the same.
+        Helper tag indentifer processing OnPost on the ModelPage (asp-page-helper)
+
+
+*@
+
+<form method="post">
+    <label>
+        Enter a number <input type="number" asp-for="Num"></input>
+    </label>
+
+    <label>
+        Select a favourite course
+        <select asp-for="FavouriteCourse">
+            <option value="">Select...</option>
+            <option value="1008">COMP1008</option>
+            <option value="1517">CPSC1517</option>
+            <option value="2018">DMIT2018</option>
+        </select>
+    </label>
+
+    <label>
+        Comments
+        <textarea asp-for="Comments" rows="5" cols="100"></textarea>
+    </label>
+
+    <br />
+    <button type="submit" value="somevalue" id="jsIdentityName"
+            name="RequestObjectIdentifier">Press Me</button>
+</form>
+<br />
+<p>@Model.FeedBack</p>
