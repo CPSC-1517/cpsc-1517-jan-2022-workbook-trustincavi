@@ -27,10 +27,10 @@ namespace WebApp.Pages.Samples
 
         public void OnPost()
         {
-            //Process the OnPost request of the form (methos="post")
-            //The return datatype can be void or IActionResult
+            //Process the OnPost request of the form (method="post").
+            //The return datatype can be void or IActionResult.
             //OnPost request is the request from a <button> that has NOT indicated a specific
-            //  process Post using the asp-page-handler
+            //  process Post using the asp-page-handler.
             //Logic that you wish to accomplish should be isolated to the actions
             //  desired for the button.
 

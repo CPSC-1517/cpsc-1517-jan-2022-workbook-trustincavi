@@ -4,6 +4,16 @@
     ViewData["Title"] = "Home page";
 }
 
-    <h1>Welcome to Razor Pages in CPSC1517</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <br />
+<h1>Welcome to Razor Pages in CPSC1517</h1>
+<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<br />
+
+@if (string.IsNullOrWhiteSpace(Model.MyName))
+{
+    <p>The world of Razor if currently closed.</p>
+}
+else
+{
+    <p style="color:forestgreen; font-weight:bold;">@Model.MyName</p>
+}
+

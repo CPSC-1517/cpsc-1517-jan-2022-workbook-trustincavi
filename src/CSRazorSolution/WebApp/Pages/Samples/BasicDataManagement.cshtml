@@ -7,50 +7,58 @@
 
 @*
     Investigate using forms on a webpage
-
-    Controls: <input> <select> <button> <form> <label>
-    Helper tags: asp-for asp-page-handler
+        - Controls:
+            <input>
+            <select>
+            <button>
+            <form>
+            <label>
+        - Helper tags:
+            asp-for
+            asp-page-handler
 
     <form> parameters:
-        method = indicates how data is transfer to server
-        - get: visible on URL in plain text
-        - post: embbeded within the form objects sent to the server, not visible
-        action= directs the server to the page to process form
-        - "" directs to the current page
-        - is optional
+        method: indicates how data is transfer to server.
+            - get: visible on URL in plain text.
+            - post: embbeded within the form objects sent to the server, not visible.
+        action: directs the server to the page to process form.
+            - "" directs to the current page.
+            - this is optional.
 
-    <label> noneeds for parameters, can have helper tags such as asp-for
+    <label> no need for parameters, can have helper tags such as asp-for
         depending on css stylesheet, you can get different results.
 
     <input> used to accept input from the page user, has various type of acceptable inputs (type="..").
         Can tie the control to a property on the ModelPage directly (asp-for="propertyname").
 
-    <select> used to display a list of items to select a value,
-        can be tie to a ModelPage property (asp-for),
-        consists of 2 parts on eacg line in the list of selectable items,
+    <select> used to display a list of items to select a value.
+        Can be tie to a ModelPage property (asp-for="propertyname").
+        It consists of 2 parts on each line in the list of selectable items,
         a line of selectable item is indicated using the <option>.
             
-            <option value="returnedValue">displayText</option>
+            <option value="returnedValue">display text</option>
                 returnedValue: is NOT visible to the user, and is the value sent to the ModelPage.
         
-        There are times when you wish the use to have a "prompt" in the display list.
+        There are times when you wish the user to have a "prompt" string in the display list
+            (the 1st line in the list to guide user what/how to select from the dropdown).
             This reffered to as the prompt line.
             This is NOT a valid value for your data.
             It may be used to indicated no choice (a property can be nullable, handle logic).
 
     <textarea> display a large text input box area for user.
-        display size is controlled using rows= and cols= ()
+        Display size is controlled using rows= and cols= ()
 
-    <button> three types
-        - submit: sends the form to the server for processing
-        - reset: locally clear the form and does NOT send to server processing
-        - button: 
-        You can assign specific value associated with the button that can be logically tested in your ModelPage (value=)
+    <button> 3 types:
+        - submit: sends the form to the server for processing.
+        - reset: locally clear the form and does NOT send to server processing.
+        - button: .
+        
+        You can assign specific value associated with the button that can be logically tested in your ModelPage (value=).
         To identify the control you can use
-        - id= basically used by javascript to identify the control
-        - name= is used by the Request["xxx"] to identify the control inyour C# code
+        - id= basically used by Javascript to identify the control.
+        - name= is used by the Request["xxx"] to identify the control in your C# code.
         Values can be the same.
-        Helper tag indentifer processing OnPost on the ModelPage (asp-page-helper)
+        Helper tag to indentifer processing OnPost on the ModelPage (asp-page-helper)
 
 
 *@
@@ -76,7 +84,7 @@
     </label>
 
     <br />
-    <button type="submit" value="somevalue" id="jsIdentityName"
+    <button type="submit" value="somevalue" id="jsIdentifier"
             name="RequestObjectIdentifier">Press Me</button>
 </form>
 <br />
