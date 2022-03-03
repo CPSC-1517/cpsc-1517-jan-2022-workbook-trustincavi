@@ -14,8 +14,13 @@ namespace WebApp.Pages.Samples
         [BindProperty]
         public string Comments { get; set; }
 
-        [TempData]
+
+        //Annotation TempData is required IF you are processing multiple requests (OnPost followed by OnGet)
+        //
+        //[TempData]
         public string FeedBack { get; set; }
+        
+        
         public void OnGet()
         {
             //Execute for a Get request
@@ -28,13 +33,20 @@ namespace WebApp.Pages.Samples
         public void OnPost()
         {
             //Process the OnPost request of the form (method="post").
-            //The return datatype can be void or IActionResult.
-            //OnPost request is the request from a <button> that has NOT indicated a specific
-            //  process Post using the asp-page-handler.
-            //Logic that you wish to accomplish should be isolated to the actions
-            //  desired for the button.
-
             FeedBack = $"Number {Num}, Course {FavouriteCourse}, Comments {Comments}";
+        }
+
+        public void OnPostA()
+        {
+            //This method is called due to the helper-tag on the form button.
+            //The "string" used on the helper-tag asp-page-handler="string" is add to the OnPost method name.
+
+            FeedBack = $"Button A was pressed.";
+        }
+
+        public void OnPostB()
+        {
+            FeedBack = $"Button B was pressed.";
         }
     }
 }
