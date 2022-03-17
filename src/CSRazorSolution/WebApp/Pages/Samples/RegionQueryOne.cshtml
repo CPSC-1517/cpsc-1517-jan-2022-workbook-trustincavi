@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{RegionID?}"
 @model WebApp.Pages.Samples.RegionQueryOneModel
 @{
     ViewData["Title"] = "PKey Region Query";
@@ -10,9 +10,33 @@
 
 <form method="post">
     <label>
+        @* The type attribute can be set to different input for acceptable value
+            "number" restricts input to numerics.
+            The numerics are by default whole numbers, can be negative/positive.
+            Additional attributes can be used to refine the accceptable values.
+            
+            - min="xxx"/max="xxx": indicates the minimum/maximum acceptable value.
+
+            - step="xxx": indicates the increments of the acceptable values.
+                step="1" (default) whole numbers increments of (1,2,3,...)
+                step="0.01" decimal numbers increments of 0.01, this is great for money amounts.
+
+            - required: indicates that the fields must have a value.
+            
+            -->> user MUST meet the validation attributes BEFORE the form is sent to the web server for processing.
+
+
+            - The attibute "formnovalidate" override any validation (html5) that exists on the form controls.
+        *@
         Enter Region ID:
-        <input type="number" asp-for="RegionID"
-            placeholder="Enter your region id" />
+@*        <input type="number" asp-for="RegionID"
+            placeholder="Enter your region id number"
+            min="1" step="1" required/>*@
+
+          <input type="number" asp-for="RegionID"
+            placeholder="Enter your region id number"
+            step="1" required/>
     </label>
-    <button type="submit">Fetch by Id</button>
+    <button type="submit" asp-page-handler="Fetch">Fetch by Id</button>
+    <button type="submit" asp-page-handler="Clear" formnovalidate>Clear</button>
 </form>
