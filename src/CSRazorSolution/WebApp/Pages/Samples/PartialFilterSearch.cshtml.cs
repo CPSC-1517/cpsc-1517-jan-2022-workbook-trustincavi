@@ -14,12 +14,15 @@ namespace WebApp.Pages.Samples
         #region Private service fields & class constructor
         private readonly ILogger<IndexModel> _logger;
         private readonly TerritoryServices _territoryServices;
+        private readonly RegionServices _regionServices;
 
         public PartialFilterSearchModel(ILogger<IndexModel> logger,
-            TerritoryServices territoryservices)
+                                        TerritoryServices territoryservices,
+                                        RegionServices regionServices)
         {
             _logger = logger;
             _territoryServices = territoryservices;
+            _regionServices = regionServices;
         }
         #endregion
 
@@ -29,10 +32,16 @@ namespace WebApp.Pages.Samples
         [BindProperty(SupportsGet = true)]
         public string Searcharg { get; set; }
 
-        public List<Territory> TerritoryInfo { get; set; } = new();
+        public List<Territory> TerritoryInfo { get; set; }
+
+        [BindProperty]
+        public List<Region> RegionList { get; set; } = new();
 
         public void OnGet()
         {
+            // Obtain the data list for the region dropdown list
+            RegionList = _regionServices.Region_List();
+            
             if (!string.IsNullOrWhiteSpace(Searcharg))
             {
                 TerritoryInfo = _territoryServices.GetByPartialDescription(Searcharg);
