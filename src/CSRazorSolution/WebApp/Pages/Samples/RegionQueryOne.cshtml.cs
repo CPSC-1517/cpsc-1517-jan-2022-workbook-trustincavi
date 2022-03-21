@@ -33,8 +33,24 @@ namespace WebApp.Pages.Samples
 
         public Region RegionInfo { get; set; }
 
+        //the List<T> has a null value as the page is created
+        //you can initialize the property to an instance as the page is
+        //      being created by adding = new() to your declaration
+        //if you do, you will have an empty instance of List<T>
+        [BindProperty]
+        public List<Region> regionsList { get; set; } = new();
+
+        [BindProperty]
+        public int selectRegion { get; set; }
+
+
         public void OnGet()
         {
+            //since the internet is a stateless environment, you need to 
+            //  obtain any list data that is required by your controls or local
+            //  logic on EVERY instance of the page being processed
+            PopulateLists();
+
             if (RegionID > 0)
             {
                 RegionInfo = _regionServices.Region_GetById(RegionID);
@@ -48,6 +64,25 @@ namespace WebApp.Pages.Samples
                 }
             }
         }
+
+        private void PopulateLists()
+        {
+            //this method will obtain the data for any require list to be used
+            //      in populating controls or for local logic
+            regionsList = _regionServices.Region_List();
+        }
+
+        public IActionResult OnPostSelect()
+        {
+            if (selectRegion < 1)
+            {
+                FeedbackMessage = "Required: Select a region to view.";
+            }
+            //the receiving "regionid" is the routing parameter
+            //the sending "selectRegion" is a BindProperty field
+            return RedirectToPage(new { regionid = selectRegion });
+        }
+
 
         // Khi co nhieu button tren cung 1 form/page
         // Thi su dung asp-page-handler="HandlerName",

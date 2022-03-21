@@ -20,7 +20,14 @@ var connectionString = builder.Configuration.GetConnectionString("WestWindDB");
 // or elsewhere and called from this location.
 builder.Services.WWBackendDependencies(options => options.UseSqlServer(connectionString));
 
+//2 alternate if registering of services not self contained in class library
+//will need to include appropriate namespace to access WestWindContext
+//Context class must also be public
+//reduces levels of security on your code.
+//builder.Services.AddDbContext<WestWindContext>(context =>
+//context.UseSqlServer(connectionString));
 
+//builder.Services.AddTransient<WestWindServices>();
 
 
 

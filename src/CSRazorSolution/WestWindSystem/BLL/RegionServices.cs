@@ -41,7 +41,18 @@ namespace WestWindSystem.BLL
         }
 
 
-        
+        // Get all records of the SQL Region table and return as a List<T>
+        public List<Region> Region_List()
+        {
+            // LinQ queries use 2 generic collection types
+            // IQueryable: data collection returned from SQL
+            // IEnumerable: data collection in local memory.
+            // Both can be converted to List<T> using .ToList()
+            IEnumerable<Region> info = _context.Regions.
+                                        OrderBy(x => x.RegionDescription);
+
+            return info.ToList();
+        }
         #endregion
     }
 }
