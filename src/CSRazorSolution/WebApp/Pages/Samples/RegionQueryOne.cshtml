@@ -39,12 +39,12 @@
     </label>
     <label>
         Select a Region:
-        <select asp-for="selectRegion">
+        <select asp-for="SelectRegion">
             @* if you do not indicate a specific option to display
                 then the list defaults to the first option line
             *@
             <option value="0">select ... </option>
-            @foreach (var item in Model.regionsList)
+            @foreach (var item in Model.RegionsList)
             {
                 //to retain the selection, you need to specify a row to be
                 //  the selected option

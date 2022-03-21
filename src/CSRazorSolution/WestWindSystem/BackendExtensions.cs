@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable disable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,6 +48,12 @@ namespace WestWindSystem
             {
                 var context = serviceProvider.GetService<WestWindContext>();
                 return new RegionServices(context);
+            });
+
+            services.AddTransient<TerritoryServices>((serviceProvider) =>
+            {
+                var context = serviceProvider.GetService<WestWindContext>();
+                return new TerritoryServices(context);
             });
         }
     }

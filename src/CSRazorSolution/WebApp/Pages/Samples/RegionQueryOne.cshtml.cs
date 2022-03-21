@@ -1,3 +1,4 @@
+#nullable disable
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WestWindSystem.BLL;
@@ -17,7 +18,7 @@ namespace WebApp.Pages.Samples
             _regionServices = regionServices;
         }
         #endregion
-        
+
         [TempData]
         public string FeedbackMessage { get; set; }
 
@@ -38,10 +39,10 @@ namespace WebApp.Pages.Samples
         //      being created by adding = new() to your declaration
         //if you do, you will have an empty instance of List<T>
         [BindProperty]
-        public List<Region> regionsList { get; set; } = new();
+        public List<Region> RegionsList { get; set; } = new();
 
         [BindProperty]
-        public int selectRegion { get; set; }
+        public int SelectRegion { get; set; }
 
 
         public void OnGet()
@@ -69,18 +70,18 @@ namespace WebApp.Pages.Samples
         {
             //this method will obtain the data for any require list to be used
             //      in populating controls or for local logic
-            regionsList = _regionServices.Region_List();
+            RegionsList = _regionServices.Region_List();
         }
 
         public IActionResult OnPostSelect()
         {
-            if (selectRegion < 1)
+            if (SelectRegion < 1)
             {
                 FeedbackMessage = "Required: Select a region to view.";
             }
             //the receiving "regionid" is the routing parameter
             //the sending "selectRegion" is a BindProperty field
-            return RedirectToPage(new { regionid = selectRegion });
+            return RedirectToPage(new { regionid = SelectRegion });
         }
 
 
@@ -123,7 +124,7 @@ namespace WebApp.Pages.Samples
 
             // The receiving RegionID is the routing parameter.
             // The sending RegionID is a BindProperty field.
-            return RedirectToPage(new {RegionID = RegionID});
+            return RedirectToPage(new { RegionID });
         }
 
         public IActionResult OnPostClear()
@@ -133,7 +134,7 @@ namespace WebApp.Pages.Samples
 
             ModelState.Clear();
 
-            return RedirectToPage(new {RegionID = (int?)null});
+            return RedirectToPage(new { RegionID = (int?)null });
         }
     }
 }

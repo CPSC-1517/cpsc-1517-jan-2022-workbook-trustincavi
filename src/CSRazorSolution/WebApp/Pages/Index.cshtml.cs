@@ -23,11 +23,11 @@ namespace WebApp.Pages
          * ILogger is a service from Microsoft Logging extensions.
          * 
          * We need to add our required service(s) to this page.
-         * Our service(s) will be know by the BLL class name.
+         * Our service(s) will be known by the BLL class name.
          * 
          * When you add a service to the page, you will save the service reference in
          * a private readonly field.
-         * This variablewill be available to all methods within this class.
+         * This variable will be available to all methods within this class.
          */
 
         public IndexModel(ILogger<IndexModel> logger, BuildVersionServices buildVersionServices)
@@ -44,7 +44,7 @@ namespace WebApp.Pages
 
         public void OnGet()
         {
-            Random random = new Random();
+            Random random = new();
             int value = random.Next(0, 100);
 
             if (value % 2 == 0)
