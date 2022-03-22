@@ -66,6 +66,36 @@
                 </tbody>
                 <tfoot>
                     @*used for summay table information eg totals*@
+                    <tr>
+                        <td colspan="3">
+                            @{
+                                // The pageRef id the string representation of the value to be displayed.
+                                // The string maybe a character line: Next
+                                // The string maybe a numeric: 4
+                                // Ex: First Previous 1 2 3 4 5 Next Last
+                                foreach (var pageRef in Model.Pager)
+                                {
+                                    if (pageRef == Model.Pager.CurrentPage)
+                                    {
+                                        <b>@pageRef.Text</b>
+                                    }
+                                    else
+                                    {
+                                        // Create an anchor tag to move to the desired collection page.
+                                        // The target of the anchor destination is your current web cshtml
+                                        //  this will cause an OnGet issue.
+                                        // .Page is the numeric representation of the desired page.
+                                        <a
+                                            title="Page @pageRef.Page" 
+                                            asp-page="/Samples/PartialFilterSearch"
+                                            asp-route-currentpage="@pageRef.Page">
+                                            @pageRef.Text
+                                        </a>
+                                    }
+                                }
+                            }
+                        </td>
+                    </tr>
                 </tfoot>
             </table>
         }

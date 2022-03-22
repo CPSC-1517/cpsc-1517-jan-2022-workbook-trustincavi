@@ -29,12 +29,30 @@ namespace WestWindSystem.BLL
         #region Queries
 
         //query by a string
-        public List<Territory> GetByPartialDescription(string partialdescription)
+        // This parital search query has been altered to allow for pagination.
+        // If paging is NOT required, the query should have a single parameter: partialdescription.
+
+        public List<Territory> GetByPartialDescription(
+            string partialdescription,
+            int pageNumber,
+            int pageSize,
+            out int totalCount)
         {
             IEnumerable<Territory> info = _context.Territories
                             .Where(x => x.TerritoryDescription.Contains(partialdescription))
                             .OrderBy(x => x.TerritoryDescription);
-            return info.ToList();
+
+            totalCount = info.Count();
+
+            // The pageNumber is a natural number (1-based, 1,2,3,..)
+            // The number of rows to skip is index*pageSize
+            int skipRows = (pageNumber - 1) * pageSize;
+            // Use LinQ's .Skip(N) to skip over N rows from a collection.
+            // Use .Take(N) to take the next n rows from a collection.
+            return info.Skip(skipRows).Take(pageSize).ToList();
+            
+
+            //return info.ToList();
         }
         //query by a number
         public List<Territory> GetByRegion(int regionid)
