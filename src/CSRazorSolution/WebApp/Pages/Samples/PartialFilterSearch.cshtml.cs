@@ -31,7 +31,7 @@ namespace WebApp.Pages.Samples
         public string Feedback { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public string Searcharg { get; set; }
+        public string searcharg { get; set; }
 
         public List<Territory> TerritoryInfo { get; set; }
 
@@ -55,7 +55,7 @@ namespace WebApp.Pages.Samples
             // Obtain the data list for the region dropdown list
             RegionList = _regionServices.Region_List();
 
-            if (!string.IsNullOrWhiteSpace(Searcharg))
+            if (!string.IsNullOrWhiteSpace(searcharg))
             {
                 // Setting up for using the Paginator only needs to be done if a query is executing.
 
@@ -71,7 +71,7 @@ namespace WebApp.Pages.Samples
                 // will ONLY return the amount of records to actually be display on the browser page.
 
                 TerritoryInfo = _territoryServices.GetByPartialDescription(
-                    Searcharg,
+                    searcharg,
                     pageNumber,
                     PAGE_SIZE,
                     out totalCount);
@@ -83,12 +83,12 @@ namespace WebApp.Pages.Samples
 
         public IActionResult OnPostFetch()
         {
-            if (string.IsNullOrWhiteSpace(Searcharg))
+            if (string.IsNullOrWhiteSpace(searcharg))
             {
                 Feedback = "Required: Search argument is empty.";
             }
 
-            return RedirectToPage(new { Searcharg });
+            return RedirectToPage(new { searcharg });
         }
 
         public IActionResult OnPostClear()
@@ -97,6 +97,11 @@ namespace WebApp.Pages.Samples
             //searcharg = null;
             ModelState.Clear();
             return RedirectToPage(new { searcharg = (string?)null });
+        }
+
+        public IActionResult OnPostNew()
+        {
+            return RedirectToPage("/Samples/ReceivingPage");
         }
 
     }

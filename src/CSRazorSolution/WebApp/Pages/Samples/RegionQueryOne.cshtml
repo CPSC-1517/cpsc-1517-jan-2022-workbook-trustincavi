@@ -1,4 +1,4 @@
-﻿@page "{RegionID?}"
+﻿@page "{regionID?}"
 @model WebApp.Pages.Samples.RegionQueryOneModel
 @{
     ViewData["Title"] = "PKey Region Query";
@@ -33,7 +33,7 @@
             placeholder="Enter your region id number"
             min="1" step="1" required/>*@
 
-        <input type="number" asp-for="RegionID"
+        <input type="number" asp-for="regionID"
                placeholder="Enter your region id number"
                step="1" required />
     </label>
@@ -49,7 +49,7 @@
                 //to retain the selection, you need to specify a row to be
                 //  the selected option
                 //this is done with the selected attribute on the value
-                if (item.RegionID == Model.RegionID)
+                if (item.RegionID == Model.regionID)
                 {
                     <option value="@item.RegionID" selected>@item.RegionDescription</option>
 

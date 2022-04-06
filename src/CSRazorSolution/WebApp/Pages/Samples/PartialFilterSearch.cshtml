@@ -1,4 +1,4 @@
-﻿@page "{Searcharg?}"
+﻿@page "{searcharg?}"
 @model WebApp.Pages.Samples.PartialFilterSearchModel
 @{
     ViewData["Title"] = "Partial String Table Query";
@@ -10,7 +10,7 @@
 <form method="post">
     <label>
         Enter a partial Territory description:
-        <input type="text" asp-for="Searcharg"
+        <input type="text" asp-for="searcharg"
                placeholder="enter your description" />
     </label>
     <br />
@@ -38,10 +38,19 @@
                     @*used for the table details
                         the number of rows are unsually unknown for a db query
                     *@
+                    
                     @foreach (var item in Model.TerritoryInfo)
                     {
                         <tr>
-                            <td>@item.TerritoryID</td>
+                            <td>
+                                @*
+                                    Example of passing value between pages.
+                                    Get Don's comments here...
+                                *@
+                                <a href="/Samples/ReceivingPage/@item.TerritoryID">
+                                Edit this Territory: @item.TerritoryID
+                                </a>
+                            </td>
                             <td>@item.TerritoryDescription</td>
                             <td>
                                 <select disabled="true">
@@ -60,7 +69,6 @@
                                     }
                                 </select>
                             </td>
-
                         </tr>
                     }
                 </tbody>
@@ -102,5 +110,6 @@
     }
     <button type="submit" asp-page-handler="Fetch">Fetch Territories</button>&nbsp;&nbsp;
     <button type="submit" asp-page-handler="Clear" formnovalidate>Clear</button>
+    <button type="submit" asp-page-handler="New" formnovalidate>New Territory</button>
 
 </form>

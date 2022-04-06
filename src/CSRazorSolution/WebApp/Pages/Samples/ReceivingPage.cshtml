@@ -1,0 +1,17 @@
+﻿@page "{territoryId?}"
+@model WebApp.Pages.Samples.ReceivingPageModel
+@{
+    ViewData["Title"] = "Receiving passed data";
+}
+
+<h1>Receiving Pass of Data</h1>
+
+@if (Model.territoryId == null)
+{
+    <p>No value was passed &gt;@Model.territoryId&lt;</p>
+}
+else
+{
+    <p>The value you passed was @Model.territoryId</p>
+}
+

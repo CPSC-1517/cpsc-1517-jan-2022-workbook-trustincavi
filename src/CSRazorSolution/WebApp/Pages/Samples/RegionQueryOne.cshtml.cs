@@ -30,7 +30,7 @@ namespace WebApp.Pages.Samples
         // The SupportsGet = true will allow the property to be matched to the routing parameter
         //   of the same name.
         [BindProperty(SupportsGet = true)]
-        public int RegionID { get; set; }
+        public int regionID { get; set; }
 
         public Region RegionInfo { get; set; }
 
@@ -52,9 +52,9 @@ namespace WebApp.Pages.Samples
             //  logic on EVERY instance of the page being processed
             PopulateLists();
 
-            if (RegionID > 0)
+            if (regionID > 0)
             {
-                RegionInfo = _regionServices.Region_GetById(RegionID);
+                RegionInfo = _regionServices.Region_GetById(regionID);
                 if (RegionInfo == null)
                 {
                     FeedbackMessage = "Region Id is not valid. No such region.";
@@ -81,7 +81,7 @@ namespace WebApp.Pages.Samples
             }
             //the receiving "regionid" is the routing parameter
             //the sending "selectRegion" is a BindProperty field
-            return RedirectToPage(new { regionid = SelectRegion });
+            return RedirectToPage(new { regionID = SelectRegion });
         }
 
 
@@ -117,20 +117,20 @@ namespace WebApp.Pages.Samples
         //}
         public IActionResult OnPostFetch()
         {
-            if (RegionID < 1)
+            if (regionID < 1)
             {
                 FeedbackMessage = "Required: Region Id is a non-zero positive number.";
             }
 
             // The receiving RegionID is the routing parameter.
             // The sending RegionID is a BindProperty field.
-            return RedirectToPage(new { RegionID });
+            return RedirectToPage(new { regionID });
         }
 
         public IActionResult OnPostClear()
         {
             FeedbackMessage = "";
-            RegionID = 0;
+            regionID = 0;
 
             ModelState.Clear();
 
