@@ -15,19 +15,39 @@ namespace WestWindSystem.Entities
     [Index(nameof(SupplierID), Name = "SuppliersProducts")]
     public partial class Product
     {
+        // This is for fully implemented UnitPrice
+        private decimal _UnitPrice;
+
+
         [Key]
         public int ProductID { get; set; }
-        [Required]
-        [StringLength(40)]
+        [Required(ErrorMessage = "Product name is required.")]
+        [StringLength(40, MinimumLength = 1, ErrorMessage = "Product name is limited to 40 characters.")]
         public string ProductName { get; set; }
         public int SupplierID { get; set; }
         public int CategoryID { get; set; }
         [Required]
         [StringLength(20)]
         public string QuantityPerUnit { get; set; }
+        [Range(0,100,ErrorMessage = "Order quantity is between 0 and 100.")]
         public short? MinimumOrderQuantity { get; set; }
+
+        // Problem:
+        //   a) On form input control value is displayed with x.0000 (4 decimal places)
+        //   b) Using HTML5 control for value in inout set to step="0.01" (2 decimal places)
+        //
+        // Forces one to remove the extra decimal places.
+        // Work-around: return the get value formatted to 2 decimal places
+        // Fully implement the property (UnitPrice)
+
+
         [Column(TypeName = "money")]
-        public decimal UnitPrice { get; set; }
+        public decimal UnitPrice 
+        { 
+            get { return decimal.Parse(UnitPrice.ToString("0.00")); } 
+            set { UnitPrice = value; }
+        }
+
         public int UnitsOnOrder { get; set; }
         public bool Discontinued { get; set; }
 

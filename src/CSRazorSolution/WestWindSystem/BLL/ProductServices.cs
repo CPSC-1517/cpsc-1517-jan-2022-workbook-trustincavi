@@ -62,6 +62,10 @@ namespace WestWindSystem.BLL
         // Here we try to check (for example) if new record has same name and quantity per unit form the supplier.
         public int Product_AddProduct(Product item)
         {
+            if (item == null)
+            {
+                throw new ArgumentNullException("Product data is missing");
+            }
             Product exists = _context.Products
                 .Where(x =>
                     x.ProductName.Equals(item.ProductName) &&
@@ -86,6 +90,9 @@ namespace WestWindSystem.BLL
             _context.Products.Add(item);
 
             // Commit the local data to DB
+
+            // If there are validation annotations on the Entities, they will be executed
+            // during the SaveChanges().
             _context.SaveChanges();
 
             // After the commit, PK value is now available
