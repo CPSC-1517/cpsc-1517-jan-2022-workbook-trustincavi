@@ -56,7 +56,8 @@
 
     @* Create a control that will hold the product PK value.
         This control should NOT be changable IF you PK is IDENTITY.
-        This control can be visible (type="text") or hidden (type="hidden"), which is a design consideration.
+        This control can be visible (type="text") or hidden (type="hidden"), 
+        which is a design consideration.
     *@
     <label>
         ID:
@@ -64,6 +65,7 @@
         {
             <input type="text" asp-for="ProductInfo.ProductID" readonly data-val="false"
                value="0" />
+               @* Neu null ma ko set value = 0 o day thi se bi loi validation *@
         }
         else
         {

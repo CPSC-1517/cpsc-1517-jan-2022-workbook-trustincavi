@@ -130,6 +130,13 @@ namespace WebApp.Pages.Samples
                     return Page();
                 }
             }
+            else
+            {
+                // If you are using ModelState AND are in need of re-populating LISTs
+                // (for select, or group of radiobuttons, etc.),
+                // you will need to re-obtain the lists.
+                PopulateLists();
+            }
             return Page();
         }
 
@@ -172,6 +179,7 @@ namespace WebApp.Pages.Samples
             {
                 try
                 {
+                    // This is a logical delete (actually an update)
                     int rowaffected = _productServices.Product_DeleteProduct(ProductInfo);
                     if (rowaffected > 0)
                     {
@@ -195,6 +203,10 @@ namespace WebApp.Pages.Samples
                     PopulateLists();
                     return Page();
                 }
+            }
+            else
+            {
+                PopulateLists();
             }
             return Page();
         }

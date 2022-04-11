@@ -107,14 +107,30 @@ namespace WestWindSystem.BLL
             // For Updating, MUST have the PK value on your instance.
             // If not, it will not work.
 
+
+
+            // ***** WARNING *****
+
+            // This method (the code to update below) can cause problems then being used with EntityEntry<T> processing.
+
             //Product exists = _context.Products
             //    .Where(x => x.ProductID == item.ProductID)
             //    .FirstOrDefault();
             //if (exists != null)
             //{
+            //    throw new Exception($"{item.ProductName} with a size of {item.QuantityPerUnit}" +
+            //        $" from the selected supplier is already on file.");
             //}
 
+            // ***** end of WARNING *****
 
+
+
+            // ***** BETTER METHOD *****
+            // This does NOT actually return an instance and thus has NO CONFLICT
+            // with using EntityEntry<T>.
+
+            // This method does the search but return only a boolean of success
             bool exists = _context.Products.Any(x => x.ProductID == item.ProductID);
             if (!exists)
             {
@@ -124,7 +140,7 @@ namespace WestWindSystem.BLL
 
             // Stage the update
             EntityEntry<Product> updating = _context.Entry(item);
-            
+
             // Flag the entity to be modified
             updating.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
